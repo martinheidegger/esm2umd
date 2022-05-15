@@ -1,5 +1,5 @@
 {
-  "name": "esm2umd",
+  "name": "@leichtgewicht/esm2umd",
   "description": "Transforms ESM to UMD.",
   "version": "0.0.0",
   "bin": {
