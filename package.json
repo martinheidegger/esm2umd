@@ -3,15 +3,15 @@
   "description": "Transforms ESM to UMD.",
   "version": "0.0.0",
   "bin": {
-    "esm2umd": "bin/esm2umd.js"
+    "esm2umd": "bin/esm2umd.mjs"
   },
   "type": "module",
   "main": "index.cjs",
+  "module": "index.mjs",
   "exports": {
-    "import": "./index.js",
+    "import": "./index.mjs",
     "require": "./index.cjs"
   },
-  "module": "index.js",
   "types": "index.d.ts",
   "repository": {
     "type": "git",
@@ -22,16 +22,16 @@
     "@babel/plugin-transform-modules-commonjs": "^7"
   },
   "scripts": {
-    "build": "node bin/esm2umd esm2umd index.js > index.cjs",
+    "build": "node bin/esm2umd.mjs esm2umd",
     "prepublishOnly": "npm run build",
     "test": "node tests"
   },
   "files": [
-    "index.js",
+    "index.mjs",
     "index.cjs",
     "index.d.ts",
     "package.json",
     "README.md",
-    "bin/esm2umd.js"
+    "bin/esm2umd.mjs"
   ]
 }

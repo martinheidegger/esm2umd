@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 import fs from 'fs'
-import esm2umd from '../index.js'
+import esm2umd from '../index.mjs'
 import process from 'process'
 import { pathToFileURL } from 'url'
 import { sep, join } from 'path'
 
 if (process.argv.length < 3) {
-  console.error("Usage: esm2umd <ModuleName>")
+  console.error("Usage: esm2umd [<ModuleName>]")
   process.exit(1)
 }
 

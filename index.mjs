@@ -17,7 +17,10 @@ export default function esm2umd(moduleName, esmCode, options = {}) {
       [ transform, options ]
     ]
   }).code.trim();
-  return wrapper
-    .replace(/%NAME%/g, moduleName)
-    .replace("%CODE%", umdCode.replace(/\n/g, "\n  ").trimRight());
+  if (moduleName) {
+    return wrapper
+      .replace(/%NAME%/g, moduleName)
+      .replace("%CODE%", umdCode.replace(/\n/g, "\n  ").trimRight());
+  }
+  return umdCode;
 }

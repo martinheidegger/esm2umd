@@ -23,11 +23,15 @@ var esm2umd = (function(exports) {
   function esm2umd(moduleName, esmCode, options = {}) {
     if (!options.importInterop) options.noInterop = true;
   
-    const umdCode = _core.default.transform(esmCode, {
-      plugins: [[_pluginTransformModulesCommonjs.default, options]]
+    const umdCode = _core.transform(esmCode, {
+      plugins: [[_pluginTransformModulesCommonjs, options]]
     }).code.trim();
   
-    return wrapper.replace(/%NAME%/g, moduleName).replace("%CODE%", umdCode.replace(/\n/g, "\n  ").trimRight());
+    if (moduleName) {
+      return wrapper.replace(/%NAME%/g, moduleName).replace("%CODE%", umdCode.replace(/\n/g, "\n  ").trimRight());
+    }
+  
+    return umdCode;
   }
   return "default" in exports ? exports.default : exports;
 })({});
