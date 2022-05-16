@@ -5,7 +5,7 @@ import process from 'process'
 import { pathToFileURL } from 'url'
 import { sep, join } from 'path'
 
-if (process.argv.length < 3) {
+if (process.argv[2] === '--help') {
   console.error("Usage: esm2umd [<ModuleName>]")
   process.exit(1)
 }
