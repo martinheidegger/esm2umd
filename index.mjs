@@ -16,7 +16,7 @@ export default function esm2umd(moduleName, esmCode, options = {}) {
     plugins: [
       [ transform, options ]
     ]
-  }).code.trim();
+  }).code.trim().replace(/new URL\(import\.meta\.url\)\.pathname/g, '__filename');
   if (moduleName) {
     return wrapper
       .replace(/%NAME%/g, moduleName)

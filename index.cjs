@@ -25,7 +25,7 @@ var esm2umd = (function(exports) {
   
     const umdCode = _core.transform(esmCode, {
       plugins: [[_pluginTransformModulesCommonjs, options]]
-    }).code.trim();
+    }).code.trim().replace(/new URL\(import\.meta\.url\)\.pathname/g, '__filename');
   
     if (moduleName) {
       return wrapper.replace(/%NAME%/g, moduleName).replace("%CODE%", umdCode.replace(/\n/g, "\n  ").trimRight());
