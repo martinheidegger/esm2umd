@@ -6,11 +6,11 @@
     "esm2umd": "bin/esm2umd.mjs"
   },
   "type": "module",
-  "main": "index.cjs",
+  "main": "index.js",
   "module": "index.mjs",
   "exports": {
     "import": "./index.mjs",
-    "require": "./index.cjs"
+    "require": "./index.js"
   },
   "types": "index.d.ts",
   "repository": {
@@ -27,7 +27,7 @@
     "test": "node tests"
   },
   "files": [
-    "index.mjs",
+    "index.js",
     "index.cjs",
     "index.d.ts",
     "package.json",
