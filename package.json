@@ -1,7 +1,7 @@
 {
   "name": "@leichtgewicht/esm2umd",
   "description": "Transforms ESM to UMD.",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "bin": {
     "esm2umd": "bin/esm2umd.mjs"
   },
