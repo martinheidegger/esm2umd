@@ -3,14 +3,14 @@ import fs from 'fs'
 import esm2umd from '../index.mjs'
 import process from 'process'
 import { pathToFileURL } from 'url'
-import { sep, join, relative } from 'path'
+import { sep } from 'path'
 
 if (process.argv[2] === '--help') {
   console.error("Usage: esm2umd [<ModuleName>]")
   process.exit(1)
 }
 
-async function toUMD (dirname, pkg, base) {
+async function toUMD (dirname, pkg) {
   const files = await fs.promises.readdir(dirname)
   const moduleMatch = new RegExp(`^(${pkg.name}\\/|\\.)`)
   for (const file of files) {
@@ -21,7 +21,7 @@ async function toUMD (dirname, pkg, base) {
         continue
       }
       await toUMD(
-        new URL(source.href + sep), pkg, base === '.' ? '..' : base + sep + '..'
+        new URL(source.href + sep), pkg
       )
     }
     if (!file.endsWith('.mjs')) {
@@ -46,9 +46,8 @@ async function toUMD (dirname, pkg, base) {
 
 ;(async () => {
   const dirname = pathToFileURL(process.cwd() + sep)
-  const jsonPath = join(dirname.pathname, 'package.json')
-  const pkg = JSON.parse(await fs.promises.readFile(jsonPath, 'utf-8'))
-  await toUMD(dirname, pkg, '.')
+  const pkg = JSON.parse(await fs.promises.readFile(new URL('package.json', dirname), 'utf-8'))
+  await toUMD(dirname, pkg)
 })()
   .catch(err => {
     console.error(err.stack)
