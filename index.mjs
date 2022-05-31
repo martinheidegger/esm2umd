@@ -1,5 +1,8 @@
 import babel from "@babel/core";
 import transform from "@babel/plugin-transform-modules-commonjs";
+import path from "path";
+
+const filename = decodeURI(import.meta.url).replace(/^file:\/\/(\/(\w+:))?/, '$2').replace(/\//g, path.sep);
 
 const wrapper = `// GENERATED FILE. DO NOT EDIT.
 var %NAME% = (function(exports) {
@@ -16,7 +19,7 @@ export default function esm2umd(moduleName, esmCode, options = {}) {
     plugins: [
       [ transform, options ]
     ]
-  }).code.trim().replace(/new URL\(import\.meta\.url\)\.pathname/g, '__filename');
+  }).code.trim().replace(/decodeURI\(import\.meta\.url\)\.replace\(\/\^file\:\\\/\\\/\(\\\/\(\\w\+\:\)\)\?\/, \'\$2'\)\.replace\(\/\\\/\/g, _?path\.sep\)/g, '__filename');
   if (moduleName) {
     return wrapper
       .replace(/%NAME%/g, moduleName)
@@ -24,3 +27,5 @@ export default function esm2umd(moduleName, esmCode, options = {}) {
   }
   return umdCode;
 }
+
+esm2umd.filename = filename

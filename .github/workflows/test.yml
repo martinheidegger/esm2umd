@@ -3,10 +3,16 @@ on: [push]
 jobs:
   test:
     name: Test
-    runs-on: ubuntu-latest
     strategy:
       matrix:
-        node_version: ["lts/*", "current"]
+        include:
+          - os: windows-latest
+            node_version: current
+          - os: macos-latest
+            node_version: lts/*
+          - os: ubuntu-latest
+            node_version: lts/*
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v1.0.0
     - uses: actions/setup-node@v3

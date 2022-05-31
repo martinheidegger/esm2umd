@@ -11,6 +11,9 @@ var esm2umd = (function(exports) {
   
   var _pluginTransformModulesCommonjs = require("@babel/plugin-transform-modules-commonjs");
   
+  var _path = require("path");
+  
+  const filename = __filename;
   const wrapper = `// GENERATED FILE. DO NOT EDIT.
   var %NAME% = (function(exports) {
     %CODE%
@@ -25,7 +28,7 @@ var esm2umd = (function(exports) {
   
     const umdCode = _core.transform(esmCode, {
       plugins: [[_pluginTransformModulesCommonjs, options]]
-    }).code.trim().replace(/new URL\(import\.meta\.url\)\.pathname/g, '__filename');
+    }).code.trim().replace(/decodeURI\(import\.meta\.url\)\.replace\(\/\^file\:\\\/\\\/\(\\\/\(\\w\+\:\)\)\?\/, \'\$2'\)\.replace\(\/\\\/\/g, _?path\.sep\)/g, '__filename');
   
     if (moduleName) {
       return wrapper.replace(/%NAME%/g, moduleName).replace("%CODE%", umdCode.replace(/\n/g, "\n  ").trimRight());
@@ -33,6 +36,8 @@ var esm2umd = (function(exports) {
   
     return umdCode;
   }
+  
+  esm2umd.filename = filename;
   return "default" in exports ? exports.default : exports;
 })({});
 if (typeof define === 'function' && define.amd) define([], function() { return esm2umd; });

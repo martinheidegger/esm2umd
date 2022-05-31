@@ -21,7 +21,7 @@
     "@babel/plugin-transform-modules-commonjs": "^7"
   },
   "scripts": {
-    "build": "node bin/esm2umd.mjs esm2umd; rm tests/index.js",
+    "build": "node bin/esm2umd.mjs esm2umd && rm tests/index.js",
     "prepublishOnly": "npm run build",
     "test": "node tests/index.cjs && node tests/index.mjs"
   },

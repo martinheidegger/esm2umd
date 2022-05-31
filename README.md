@@ -80,3 +80,37 @@ For typings, if there is a `default` export, stick to the "old" format for compa
 ```ts
 export = MyModule;
 ```
+
+Filename
+--------
+
+`__filename` is not available in es modules while the `import.meta.url` is not available
+in common js modules. Since older Node.js versions do not support URL's in `fs` operations
+the easiest way to work with `fs` operations is to use in node.js specific code.
+
+The `__filename` equivalent in es modules is:
+
+```js
+import path from 'path'
+
+const filename = decodeURI(import.meta.url).replace(/^file:\/\/(\/(\w+:))?/, '$2').replace(/\//g, path.sep);
+```
+
+`@leichtgewicht/esm2umd` will automatically replace the above string to `const filename = __filename`
+in umd modules.
+
+**Why is this so long?**
+
+Now, you might be wondering why the filename is soo complicated, so lets explain all parts here.
+
+1. `import.meta.url` contains a URL and spaces (and other special characters) are escaped like `/my%20folder/`
+    `decodeURI(...)` will replace the encodings.
+2. `import.meta.url` prefixes the path with `file://` but on windows it will also prefix an additional
+    `/` before the `C:/...`. In the regexp `^file:\/\/(\/(\w+:))?` the second part `(\/(\w+:))?` will
+    only match on windows¥ and put the `C:` in the `$2` variable. So the `.replace(..., '$2')` call will
+    remove the `file://` prefix on *nix and if there is a `C:` on windows, it will also replace the
+    unnecessary `/`.
+3. `import.meta.url` is normalized for the `/` prefix but the `__filename` on windows is separated using
+    the `\` character. To have consistent behavior `.replace(/\//g, path.sep)` will do nothing on *nix,
+    but on windows it will make sure that the `/` is replaced by `\`.
+
